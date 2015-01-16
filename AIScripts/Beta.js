@@ -2,6 +2,7 @@
  * Beta:
  * The drunken farmer.  Will move each unit in a random direction, and attempt to farm.
  * Will not try to defend itself.
+ * Contributed by: Cameron Christou
  ****************************************************************************************/
 var max = 500;
 var min = 1500;

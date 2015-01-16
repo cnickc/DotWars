@@ -2,6 +2,7 @@
  * Delta:
  * The coward.  Will abandon its current base when an enemy approaches, then split 
  * into two groups.  When in a base, it will attempt to farm new units.
+ * Contributed by: Cameron Christou
  ****************************************************************************************/
 var msg = [];
 var ID;

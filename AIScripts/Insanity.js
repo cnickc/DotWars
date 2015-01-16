@@ -2,7 +2,7 @@
  * Gamma:
  * The hunter.  Takes a moment to strengthen its army, then selects a target unit to track
  * down.  Ignore everything else en-route.
- * Contributed by: Cameron Christou
+ * Contributed by: Raja Sappidi & Carrie Lin
  ****************************************************************************************/
 var msg = [];
 var ID;
@@ -73,6 +73,8 @@ dataResponse = function ( ev ) {
 	orders = [];
 	myGuys = [];
 	enemies = [];
+	dirs = ["up", "down", "left", "right"];
+
 	u = ev.data["Data"].units;
 	b = ev.data["Data"].bases;
 
@@ -85,7 +87,7 @@ dataResponse = function ( ev ) {
 	}
 
 	//build a stockpile before going hunting
-	if( targetUnit == -1 && myGuys.length < 6 ) {
+	if( targetUnit == -1 && myGuys.length < 10 ) {
 		for( var i = 0; i < myGuys.length; i++ ) {
 			var mark = enemyInRange( myGuys[i], enemies );
 			if( mark > 0 ) {
@@ -99,19 +101,29 @@ dataResponse = function ( ev ) {
 	} 
 	else
 	{
-		//find a new target
 		while( targetUnit == -1 || u[targetUnit].health <= 0) {
 			targetUnit = enemies[Math.floor(Math.random() * enemies.length)].id;
 		}
 
-		//chase down that target 
-		for( var i = 0; i < myGuys.length; i++ ) {
-			var mark = enemyInRange( myGuys[i], [ u[targetUnit] ] );
+		for (var i = 0; i < 5; i++){
+			var mark = enemyInRange( myGuys[i], enemies );
 			if( mark > 0 ) {
+				//attack if someone is in my space
 				orders.push( {"unitID" : myGuys[i].id, "move" : "", "dash" : "", "attack" : mark, "farm" : false} );	
 			} else {
+				//farm
+				orders.push( {"unitID" : myGuys[i].id, "move" : "", "dash" : "", "attack" : "", "farm" : true} );
+			}
+		}	
+
+		//chase down that target 
+		for (var i = 5; i < myGuys.length; i++){
+			var mark = enemyInRange( myGuys[i], [ u[targetUnit] ] );
+			if( mark > 0 ) {
+				orders.push( {"unitID" : myGuys[i].id, "move" : getDir( myGuys[i].locx, myGuys[i].locy, u[targetUnit].locx, u[targetUnit].locy ), "dash" : "", "attack" : mark, "farm" : false} );	
+			} else {
 				var dir = getDir( myGuys[i].locx, myGuys[i].locy, u[targetUnit].locx, u[targetUnit].locy ); 
-				orders.push( {"unitID" : myGuys[i].id, "move" : dir, "dash" : dir, "attack" : "", "farm" : false} );
+				orders.push( {"unitID" : myGuys[i].id, "move" : dir, "dash" : dir} );
 			}
 		}
 	}

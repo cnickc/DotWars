@@ -5,6 +5,7 @@
  * the center and attack anything that comes close, including farmed units.  Once this 
  * army claims ownership of the target base, it selects a new target and repeats the 
  * process
+ * Contributed by: Cameron Christou
  ****************************************************************************************/
 var msg = [];
 var ID;
