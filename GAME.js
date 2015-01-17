@@ -1,9 +1,9 @@
 /*****************************************************************************************
  * Config Settings
  ****************************************************************************************/
-var fps = 80;
+var fps = 40;
 var delay = 1000/fps;
-var gameLength = 2500;
+var gameLength = 3000;
 
 var players = 4;
 var playerList = [ "Alpha", "Beta", "Gamma", "Delta", "DynamicTransit", 
