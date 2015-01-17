@@ -1,0 +1,41 @@
+.playerScoreTile {
+	position:absolute;
+	top:1.5em;
+	left:0;
+	background-color:#929292;
+	padding-left:1em;
+	padding-top:.1em;
+	padding-bottom:.1em;
+	
+	width:400px;
+}
+
+.timerBar {
+	height:1em;
+	-webkit-border-radius: 5px;  
+	-moz-border-radius: 5px;  
+	border-radius: 5px;  
+
+	border: 1px solid black;
+}
+
+.glossy {  	
+	background: -moz-linear-gradient(top,  rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.5) 8%, rgba(255,255,255,0) 100%);  
+	background: -webkit-gradient(linear, left top, left bottombottom, color-stop(0%,rgba(255,255,255,0.8)), color-stop(8%,rgba(255,255,255,0.5)), color-stop(100%,rgba(255,255,255,0)));  
+	background: -webkit-linear-gradient(top,  rgba(255,255,255,0.8) 0%,rgba(255,255,255,0.5) 8%,rgba(255,255,255,0) 100%);  
+	background: -o-linear-gradient(top,  rgba(255,255,255,0.8) 0%,rgba(255,255,255,0.5) 8%,rgba(255,255,255,0) 100%);  
+	background: -ms-linear-gradient(top,  rgba(255,255,255,0.8) 0%,rgba(255,255,255,0.5) 8%,rgba(255,255,255,0) 100%);  
+	background: linear-gradient(to bottombottom,  rgba(255,255,255,0.8) 0%,rgba(255,255,255,0.5) 8%,rgba(255,255,255,0) 100%);  
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 );
+
+	background-color: #929292;
+    
+	-webkit-border-radius: 5px;  
+	-moz-border-radius: 5px;  
+	border-radius: 5px;  
+
+	border: 1px solid black;  
+
+	-webkit-box-shadow:  0px 1px 3px 0px rgba(0, 0, 0, .2);      
+	box-shadow:  0px 1px 3px 0px rgba(0, 0, 0, .2);   
+}  
