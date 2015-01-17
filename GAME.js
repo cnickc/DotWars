@@ -1,12 +1,14 @@
 /*****************************************************************************************
  * Config Settings
  ****************************************************************************************/
-var fps = 20;
+var fps = 80;
 var delay = 1000/fps;
 var gameLength = 2500;
 
 var players = 4;
-var playerList = [ "Alpha", "Beta", "Gamma", "Delta" ];
+var playerList = [ "Alpha", "Beta", "Gamma", "Delta", "DynamicTransit", 
+	"TheFriendlyOverlord", "Swag", "Creative","Hive","Insanity","BlackDeath",
+	"Phi","CatUnicornLazerBeam" ];
 var playerColors = ["#FF0000", "#00FF00", "#0000FF", "#FF00FF"];
 var startingNumberOfUnits = 4;
 
@@ -29,7 +31,7 @@ var scorePanel = document.getElementById('scorePanel');
 for( var i = 0; i < players; i++ ){
 	points[i]=0;
 	scorePanel.innerHTML = scorePanel.innerHTML + 
-		'<div id="player'+ i +'score" style="color:'+playerColors[i]+';"></div>';
+		'<div id="player'+ i +'score" style="color:'+playerColors[i]+';" class="playerScoreTile glossy"></div>';
 }
 
 //initialize randomized players list
@@ -282,15 +284,42 @@ function drawCanvas() {
 };
 
 function drawScore ( t ) {
-	if( t % 5 != 0 ) {
+	if( t % 10 != 0 ) {
 		return;
 	}
-	document.getElementById('gameTimer').innerHTML = "Timer: "+ t;	
+	updateTimer(timer);
+	//determine ranking
+	var rank = [];
+	for( var i = 0; i < points.length; i++ ) {
+		rank.push({"p":i,"s":points[i]});
+	}
+	rank.sort(function(a, b){ return b.s - a.s });
 	for( var i = 0; i < points.length; i++ ) {
 		var playerScoreBox = document.getElementById('player'+i+'score');
 		playerScoreBox.innerHTML = gamePlayers[i] + ":  " 
-			+ parseFloat(points[i]).toFixed(2);
+			+ parseFloat(points[i]).toFixed(2) 
+			+ " --- " 
+			+ unitsOwned( units, i ) 
+			+ " / " 
+			+ basesOwned( bases, i)*maxUnitsPerBaseOwned;
+		var trans = getRankSpot(rank, i)*1.75;
+		playerScoreBox.style.transform = "translate(0,"+trans+"em)";
+		playerScoreBox.style.transition = "100ms ease-in";
 	}
+};
+
+function getRankSpot(rank, p) {
+	for( var i = 0; i < rank.length; i++ ) {
+		if(rank[i].p == p)
+			return i;
+	}
+	return -1;
+};
+
+function updateTimer( t ) {
+	var tbox = document.getElementById('gameTimer');
+	tbox.style.width = 500*t/gameLength + 'px';
+	tbox.style.backgroundColor = "rgb("+(255-255*t/gameLength)+","+(255*t/gameLength)+",0)";
 };
 
 /*****************************************************************************************

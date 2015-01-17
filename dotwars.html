@@ -4,15 +4,17 @@
 		<title>jsDotWars</title>
 		<script src="BASE.js"></script>
 		<script src="UNIT.js"></script>		
-		<script src="MAPGENERATOR.js"></script>		
+		<script src="MAPGENERATOR.js"></script>	
+		<link rel="stylesheet" type="text/css" href="Styles/main.css">	
 	</head>
 	<body>
 		<div id="cvsContainer" style="float:left;">
 			<canvas id="GameCanvas" width="500" height="500" style="border:3px solid #000000;">
 			</canvas> 
+			<div id="gameTimer" class="timerBar glossy"></div>
 		</div>
-		<div id="scorePanel" style="float:left;">
-		<div id="gameTimer" style="background-color:#888888;"></div>
+		
+		<div id="scorePanel" style="float:left;position:relative;">
 		</div>
 		<script src="GAME.js"></script>		
 	</body>
