@@ -21,6 +21,8 @@ var points = [];
 var bases = [];
 var units = [];
 var IDctr = 1;
+var aiManager = {};
+var gameInterval = {};
 
 /*****************************************************************************************
  * Gameplay Logic
@@ -329,13 +331,21 @@ function updateTimer( t ) {
  ****************************************************************************************/
 
 function StartGame() {
+	if( aiManager.terminate ) {
+		aiManager.terminate();
+		aiManager = {};
+	}
+	if( gameInterval ) {
+		clearInterval( gameInterval );
+	}
+
 	//initialize randomized players list
 	var gamePlayers = shuffle( playerList ).slice(0, players);
 
 	InitializeGame();
 
 	//Load the AI scripts for this scrimmage
-	var aiManager = new Worker('AIMANAGER.js');
+	aiManager = new Worker('AIMANAGER.js');
 	aiManager.onmessage = AIManagerOnMessage;
 	aiManager.postMessage( { "LoadAI" : gamePlayers } );
 
@@ -346,7 +356,7 @@ function StartGame() {
 	var timer = gameLength;	
 			
 	//Main data and animation loop	
-	var gameInterval = setInterval( function () {
+	gameInterval = setInterval( function () {
 		if ( timer <= 0 ) {
 			aiManager.terminate();
 			clearInterval( gameInterval );
