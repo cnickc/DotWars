@@ -332,7 +332,7 @@ function updateTimer( t ) {
 
 function StartGame() {
 	if( aiManager.terminate ) {
-		aiManager.terminate();
+		aiManager.postMessage( { "Terminate" : "" } );
 		aiManager = {};
 	}
 	if( gameInterval ) {
@@ -358,7 +358,7 @@ function StartGame() {
 	//Main data and animation loop	
 	gameInterval = setInterval( function () {
 		if ( timer <= 0 ) {
-			aiManager.terminate();
+			aiManager.postMessage( { "Terminate" : "" } );
 			clearInterval( gameInterval );
 		}
 		checkBases();
