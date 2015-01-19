@@ -25,6 +25,12 @@ incoming = function ( ev ) {
 				units = ev.data[cmd]["units"];
 				receiveData( ev.data, cmd );
 				break;
+			case "Terminate":
+				for( var i = 0; i < workers.length; i++ ) {
+					workers[i].terminate();
+				}	
+				close();
+				break;
 			default:
 				break;
 		}
