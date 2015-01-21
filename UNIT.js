@@ -1,3 +1,7 @@
+// DotWars, v1.0
+// https://github.com/cnickc/DotWars
+// (c) 2014-2015 cnickc
+
 //Unit Class
 function Unit( locx, locy, owner, id ) {
 	this.id = id;

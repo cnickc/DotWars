@@ -1,3 +1,7 @@
+// DotWars, v1.0
+// https://github.com/cnickc/DotWars
+// (c) 2014-2015 cnickc
+
 var msg = [];
 var postLock = false;
 var workers = [];
