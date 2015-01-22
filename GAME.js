@@ -18,6 +18,8 @@ var startingNumberOfUnits = 4;
 
 var maxUnitsPerBaseOwned = 10;
 
+var replayLogging = true;
+
 /*****************************************************************************************
  * Game Globals (do not touch)
  ****************************************************************************************/
@@ -27,6 +29,8 @@ var units = [];
 var IDctr = 1;
 var aiManager = {};
 var gameInterval = {};
+var gameLog = [];
+var logFile = null;
 
 /*****************************************************************************************
  * Gameplay Logic
@@ -78,6 +82,10 @@ function AIManagerOnMessage( ev ) {
 			continue;
 		}
 		
+		if( replayLogging ) {
+			gameLog.push( orders[i] );
+		}
+			
 		ordered[id] = true;
 												
 		//move
@@ -330,6 +338,17 @@ function updateTimer( t ) {
 	tbox.style.backgroundColor = "rgb("+(255-255*t/gameLength)+","+(255*t/gameLength)+",0)";
 };
 
+function makeLogFile ( log ) {
+	var data = new Blob([JSON.stringify(log)], {type: 'text/plain'});
+	
+	if (logFile !== null) {
+		window.URL.revokeObjectURL(logFile);
+	}
+	logFile = window.URL.createObjectURL( data );
+	return logFile;
+};
+
+
 /*****************************************************************************************
  * Gameplay
  ****************************************************************************************/
@@ -345,8 +364,22 @@ function StartGame() {
 
 	//initialize randomized players list
 	var gamePlayers = shuffle( playerList ).slice(0, players);
+	var link = document.getElementById('gameloglink');
+	link.style.display = 'none';
+
+	gameLog = [];
 
 	InitializeGame();
+
+	gameLog.push(
+	{
+		"players"               : gamePlayers, 
+		"delay"                 : delay,
+		"gameLength"            : gameLength,
+		"startingNumberOfUnits" : startingNumberOfUnits,
+		"maxUnitsPerBaseOwned"  : maxUnitsPerBaseOwned,
+		"bases"                 : bases
+	});
 
 	//Load the AI scripts for this scrimmage
 	aiManager = new Worker('AIMANAGER.js');
@@ -364,6 +397,11 @@ function StartGame() {
 		if ( timer <= 0 ) {
 			aiManager.postMessage( { "Terminate" : "" } );
 			clearInterval( gameInterval );
+			gameLog.push( { "Terminate" : "" } );
+			link.href = makeLogFile( gameLog );
+			if( replayLogging ) {
+				link.style.display = 'block';
+			}
 		}
 		checkBases();
 		drawCanvas();
