@@ -18,7 +18,7 @@ var startingNumberOfUnits = 4;
 
 var maxUnitsPerBaseOwned = 10;
 
-var replayLogging = true;
+var replayLogging = true;	//Not available in tournament mode
 
 /*****************************************************************************************
  * Game Globals (do not touch)

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>jsDotWars</title>
+		<script src="BASE.js"></script>
+		<script src="UNIT.js"></script>		
+		<script src="MAPGENERATOR.js"></script>	
+		<link rel="stylesheet" type="text/css" href="Styles/main.css">	
+	</head>
+	<body>
+		<button id="runButton" onclick="StartTournament();">Run</button>
+		<button id="stopButton" onclick="StopTournament();">Stop</button>
+		<div id="cvsContainer" style="float:left;">
+			<canvas id="GameCanvas" width="500" height="500" style="border:3px solid #000000;">
+			</canvas> 
+			<div id="gameTimer" class="timerBar glossy"></div>
+		</div>
+		
+		<div id="scorePanel" style="float:left;position:relative;">
+		</div>
+		<br/>
+		<script src="GAME.js"></script>		
+		<script src="TOURNAMENT.js"></script>		
+	</body>
+</html>
