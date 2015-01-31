@@ -63,7 +63,6 @@ dataResponse = function ( ev ) {
 				{
 					if( u[j].allegiance != this.ID && u[j].health > 0){
 						if(inSameBase(u[j], curBase)){
-							console.log("ENEMY");
 							nBase =  u[j];
 							break;
 						}
