@@ -3,7 +3,6 @@ var stats = {};
 StartGame = {};	//cancel StartGame function to prevent double-gameplay
 var runTournament = false;
 
-
 //initialize stats
 for( var i = 0; i < playerList.length; i++ ) {
 	stats[playerList[i]] = {};
@@ -16,7 +15,7 @@ for( var i = 0; i < playerList.length; i++ ) {
 		};
 	}
 }
-
+CreateTournamentMatrix( playerList );
 
 /*****************************************************************************************
  * Gameplay Logic
@@ -41,8 +40,69 @@ function collectStats( players, score ) {
 	p1.avgScoreAgainst = p1.avgScoreAgainst/(tg+1) + s2/(tg+1);
 	p2.avgScoreFor = p2.avgScoreFor/(tg+1) + s2/(tg+1);
 	p2.avgScoreAgainst = p2.avgScoreAgainst/(tg+1) + s1/(tg+1);
-	
 };
+
+function CreateTournamentMatrix( pList ) {
+	var container = document.getElementById("tournamentMatrix");
+	var contentString = "";
+	contentString += "<table border='1'>";
+	
+	//header row
+	contentString += "<tr>";
+		contentString += "<td></td>";
+		for( var i = 0; i < pList.length; i++ ) {
+			contentString += "<td>" + pList[i] + "</td>";
+		}
+	contentString += "</tr>";
+	
+	//body rows
+	for( var i = 0; i < pList.length; i++ ) {
+		contentString += "<tr>";
+		contentString += "<td>" + pList[i] + "</td>";
+		for( var j = 0; j < pList.length; j++ ) {
+			contentString += "<td><div id='" + pList[i] + "@" + pList[j] + "'></div></td>";
+		}
+		contentString += "</tr>";
+	}
+	contentString += "</table>";
+	container.innerHTML = contentString;
+}
+
+function UpdateTournamentScores(players) {
+	var m1 = document.getElementById(players[0]+"@"+players[1]);
+	var m2 = document.getElementById(players[1]+"@"+players[0]);
+	var p1 = stats[players[0]][players[1]];
+	var p2 = stats[players[1]][players[0]];
+	m1.innerHTML = "W: "+p1.wins+"<br />"+
+						"L: "+p1.losses+"<br />"+
+						"Avg Diff:<br />&nbsp;&nbsp;"+(p1.avgScoreFor-p1.avgScoreAgainst);
+	m2.innerHTML = "W: "+p2.wins+"<br />"+
+						"L: "+p2.losses+"<br />"+
+						"Avg Diff:<br />&nbsp;&nbsp;"+(p2.avgScoreFor-p2.avgScoreAgainst);
+	if((p1.avgScoreFor-p1.avgScoreAgainst) > 100) {
+		m1.className = "g3";
+		m2.className = "r3";
+	} else if ((p1.avgScoreFor-p1.avgScoreAgainst) > 50) {
+		m1.className = "g2";
+		m2.className = "r2";
+	} else if ((p1.avgScoreFor-p1.avgScoreAgainst) > 10) {
+		m1.className = "g1";
+		m2.className = "r1";
+	} else if ((p1.avgScoreFor-p1.avgScoreAgainst) > -10) {
+		m1.className = "m1";
+		m2.className = "m1";
+	} else if ((p1.avgScoreFor-p1.avgScoreAgainst) > -50) {
+		m1.className = "r1";
+		m2.className = "g1";
+	} else if ((p1.avgScoreFor-p1.avgScoreAgainst) > -100) {
+		m1.className = "r2";
+		m2.className = "g2";
+	} else {
+		m1.className = "r3";
+		m2.className = "g3";
+	}
+
+}
 
 function StartTournament() {
 	runTournament = true;
@@ -57,7 +117,6 @@ function nextGame() {
 	setTimeout( function () {
 		if(runTournament)
 			StartTournamentGame();
-		console.log(stats);
 	},
 	5000);
 };
@@ -93,6 +152,7 @@ function StartTournamentGame() {
 			aiManager.postMessage( { "Terminate" : "" } );
 			clearInterval( gameInterval );
 			collectStats( gamePlayers, points);
+			UpdateTournamentScores(gamePlayers);
 			nextGame();
 		}
 		checkBases();
