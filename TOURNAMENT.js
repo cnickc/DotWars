@@ -89,8 +89,8 @@ function UpdateTournamentScores(players) {
 		m1.className = "g1";
 		m2.className = "r1";
 	} else if ((p1.avgScoreFor-p1.avgScoreAgainst) > -10) {
-		m1.className = "m1";
-		m2.className = "m1";
+		m1.className = "mid";
+		m2.className = "mid";
 	} else if ((p1.avgScoreFor-p1.avgScoreAgainst) > -50) {
 		m1.className = "r1";
 		m2.className = "g1";
