@@ -122,6 +122,10 @@ function nextGame() {
 };
 
 function StartTournamentGame() {
+	if(replayLogging) {
+		replayLogging = false;
+	}
+
 	if( aiManager.terminate ) {
 		aiManager.postMessage( { "Terminate" : "" } );
 		aiManager = {};
