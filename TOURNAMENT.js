@@ -28,18 +28,17 @@ function collectStats( players, score ) {
 	var s2 = score[1].toFixed(2);
 	
 	if ( parseFloat(s1) > parseFloat(s2) ) {
-		var tg = p1.wins + p1.losses;
 		p1.wins++;
 		p2.losses++;
 	} else {
-		var tg = p1.wins + p1.losses;
 		p2.wins++;
 		p1.losses++;
 	}
-	p1.avgScoreFor = p1.avgScoreFor/(tg+1) + s1/(tg+1);
-	p1.avgScoreAgainst = p1.avgScoreAgainst/(tg+1) + s2/(tg+1);
-	p2.avgScoreFor = p2.avgScoreFor/(tg+1) + s2/(tg+1);
-	p2.avgScoreAgainst = p2.avgScoreAgainst/(tg+1) + s1/(tg+1);
+	var tg = p1.wins + p1.losses;
+	p1.avgScoreFor = p1.avgScoreFor/(tg)*(tg-1) + s1/(tg);
+	p1.avgScoreAgainst = p1.avgScoreAgainst/(tg)*(tg-1) + s2/(tg);
+	p2.avgScoreFor = p2.avgScoreFor/(tg)*(tg-1) + s2/(tg);
+	p2.avgScoreAgainst = p2.avgScoreAgainst/(tg)*(tg-1) + s1/(tg);
 };
 
 function CreateTournamentMatrix( pList ) {
@@ -118,7 +117,7 @@ function nextGame() {
 		if(runTournament)
 			StartTournamentGame();
 	},
-	5000);
+	10000);
 };
 
 function StartTournamentGame() {
