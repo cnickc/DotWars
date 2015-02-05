@@ -103,6 +103,29 @@ function UpdateTournamentScores(players) {
 
 }
 
+function updateLeaderBoard ( ) {
+
+	//determine ranking
+	var rank = [];
+	for( var i = 0; i < playerList.length; i++ ) {
+		var gp = 0;
+		var gw = 0;
+		for( var j = 0; j < playerList.length; j++ ) {
+			gp += stats[playerList[i]][playerList[j]].wins + stats[playerList[i]][playerList[j]].losses;
+			gw += stats[playerList[i]][playerList[j]].wins;
+		}
+		var percent = ( gp == 0 ) ? 0 : gw/gp;
+		rank.push({"p":i,"s":percent});
+	}
+	rank.sort(function(a, b){ return b.s - a.s });
+	var leaderBoard = document.getElementById('leaderBoard');
+	leaderBoard.innerHTML = "";
+	for( var i = 0; i < rank.length; i++ ) {
+		leaderBoard.innerHTML = leaderBoard.innerHTML + parseFloat(rank[i].s).toFixed(2) + "% -- " + playerList[rank[i].p] + "<br />";
+	}
+};
+
+
 function StartTournament() {
 	runTournament = true;
 	StartTournamentGame();
@@ -156,6 +179,7 @@ function StartTournamentGame() {
 			clearInterval( gameInterval );
 			collectStats( gamePlayers, points);
 			UpdateTournamentScores(gamePlayers);
+			updateLeaderBoard();
 			nextGame();
 		}
 		checkBases();
